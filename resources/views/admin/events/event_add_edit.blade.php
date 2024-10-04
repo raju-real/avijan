@@ -14,7 +14,8 @@
         </div>
 
         <div class="card-body">
-            <form method="POST" action="{{ $route }}" id="prevent-form" enctype="multipart/form-data">
+            <form method="POST" action="{{ $route }}" id="prevent-form" class="needs-validation check-val" novalidate
+                enctype="multipart/form-data">
                 @csrf
                 @isset($data)
                     @method('PUT')
@@ -24,7 +25,7 @@
                         <div class="form-group">
                             <label for="category" class="col-form-label">Category {!! starSign() !!}</label>
                             <select name="category" id="category"
-                                class="form-select select2 @error('category') is-invalid @enderror">
+                                class="form-select select2 @error('category') is-invalid @enderror" required>
                                 <option value="">Select Category</option>
                                 @foreach (eventCategories() as $category)
                                     <option value="{{ $category->id }}">{{ $category->name }}</option>
@@ -102,7 +103,7 @@
                         <div class="form-group">
                             <label for="image" class="col-form-label">Thumbnail {!! starSign() !!}</label>
                             <input name="image" accept=".jpg,.png,.jpeg" type="file"
-                                class="form-control @error('image') is-invalid @enderror">
+                                class="form-control @error('image') is-invalid @enderror" required>
                             @error('image')
                                 {!! displayError($message) !!}
                             @enderror
@@ -116,7 +117,8 @@
                                 <option value="1"
                                     {{ (old('status') ?? ($data->status ?? '')) == '1' ? 'selected' : '' }}>Active</option>
                                 <option value="0"
-                                    {{ (old('status') ?? ($data->status ?? '')) == '0' ? 'selected' : '' }}>Inactive</option>
+                                    {{ (old('status') ?? ($data->status ?? '')) == '0' ? 'selected' : '' }}>Inactive
+                                </option>
                             </select>
                             @error('status')
                                 {!! displayError($message) !!}
@@ -127,7 +129,7 @@
                     <div class="col-md-12 col-12 pb-2">
                         <div class="form-group">
                             <label>Description {!! starSign() !!}</label>
-                            <textarea name="description" id="description" class="form-control" cols="30" rows="10">{{ old('description') ?? ($data->description ?? '') }}</textarea>
+                            <textarea name="description" id="description" class="form-control ckeditor-required" required cols="30" rows="10">{{ old('description') ?? ($data->description ?? '') }}</textarea>
                             @error('description')
                                 {!! displayError($message) !!}
                             @enderror
@@ -135,11 +137,12 @@
                     </div>
 
                     <div class="col-md-12 mt-2">
-                        <table class="table table-tripped" width="100%" id="image_table">
+                        <table class="table table-striped table-bordered table-sm" width="100%" id="image_table">
                             <thead>
                                 <tr>
                                     <th class="pl-1">Image Title {!! starSign() !!}</th>
                                     <th class="pl-0">Image {!! starSign() !!}</th>
+                                    <th class="pl-0">Display On Slider</th>
                                     <th class="pl-0">Action</th>
                                 </tr>
                             </thead>
@@ -152,8 +155,16 @@
                                     <td class="pl-0">
                                         <input name="photos[]" type="file" class="form-control" required>
                                     </td>
+                                    <td class="pl-2 pt-2 pb-0">
+                                        <div class="custom-control custom-switch">
+                                            <input type="checkbox" checked class="custom-control-input" id="customSwitch${switchCounter}">
+                                            <input type="hidden" name="display_image[]" value="off"> <!-- Default value -->
+                                            <label class="custom-control-label" for="customSwitch${switchCounter}">Display Image On Slider</label>
+                                        </div>
+                                    </td>
                                 </tr>
                             </tbody>
+
                         </table>
                         <div class="mt-1">
                             <div class="form-group">
@@ -181,6 +192,49 @@
     <script>
         CKEDITOR.replace('description', {
             removePlugins: ['info', 'image'],
+        });
+        // Counter to generate unique IDs for switches
+        let switchCounter = 1;
+
+        $(document).on('click', '#add_more_image', function() {
+            switchCounter++; // Increment counter for unique IDs
+            let imave_div = `<tr>
+        <td class="pl-0">
+            <input name="image_title[]" type="text" class="form-control" placeholder="Title" required>
+        </td>
+        <td class="pl-0">
+            <input name="photos[]" type="file" class="form-control" required>
+        </td>
+        <td class="pl-2 pt-2 pb-0">
+            <div class="custom-control custom-switch">
+                <input type="checkbox" class="custom-control-input" id="customSwitch${switchCounter}">
+                <input type="hidden" name="display_image[]" value="off">
+                <label class="custom-control-label" for="customSwitch${switchCounter}">Display Image On Slider</label>
+            </div>
+        </td>
+        <td style="width: 5%">
+            <button type="button" class="btn btn-sm btn-danger text-right remove_imave">
+                <i class="fa fa-trash"></i>
+            </button>
+        </td>
+    </tr>`;
+
+            $('#image_table').find('tbody').append(imave_div);
+        });
+
+        $(document).on('click', '.remove_imave', function() {
+            let event = this;
+            $(event).parent().parent().remove();
+        });
+
+        // Update hidden input value based on switch state
+        $(document).on('change', '.custom-control-input', function() {
+            let hiddenInput = $(this).siblings('input[type="hidden"]');
+            if (this.checked) {
+                hiddenInput.val('on');
+            } else {
+                hiddenInput.val('off');
+            }
         });
     </script>
 @endpush

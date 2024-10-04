@@ -13,6 +13,7 @@ $(function () {
         $("#submit-button").prop("disabled", true).html(buttonText);
     });
 
+
     $(document).on("click", ".delete-data", function (e) {
         e.preventDefault();
         let target = $(this).attr("data-id");
@@ -35,24 +36,23 @@ $(function () {
 
     // Initialize the select2
     $(".select2").select2();
-    
-    $('.datetimepicker').datetimepicker({
-        format: 'Y-m-d H:i',
-        value: new Date(),   // Default to today
-        step: 1
+
+    $(".datetimepicker").datetimepicker({
+        format: "Y-m-d H:i",
+        value: new Date(), // Default to today
+        step: 1,
     });
-    
-    $('.datepicker').datetimepicker({
-        format: 'Y-m-d',
+
+    $(".datepicker").datetimepicker({
+        format: "Y-m-d",
         timepicker: false,
-        value: new Date(),   // Default to today
-        theme: 'picker-box'
+        value: new Date(), // Default to today
+        theme: "picker-box",
     });
-    
-    $('.timepicker').datetimepicker({
-        format: 'H:i',
+
+    $(".timepicker").datetimepicker({
+        format: "H:i",
         datepicker: false,
-        step: 1
+        step: 1,
     });
-    
 });
