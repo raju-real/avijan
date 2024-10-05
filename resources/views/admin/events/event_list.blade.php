@@ -80,30 +80,28 @@
                             <th>Thumbnail</th>
                             <th>Title</th>
                             <th>Date</th>
+                            <th>Time</th>
                             <th>Type</th>
                             <th>Status</th>
                             <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($events as $article)
+                        @foreach ($events as $event)
                             <tr>
                                 <td>{{ $loop->index + 1 }}</td>
                                 <td>
-                                    <img src="{{ asset($article->thumbnaail) }}" alt="" class="img-responsive" height="50" width="50">
+                                    <img src="{{ asset($event->thumbnail) }}" alt="" class="img-responsive" height="50" width="50">
                                 </td>
-                                <td>{{ $article->title }}</td>
-                                <td>{{ formatDate($article->event_date,'d M, y') }}</td>
-                                <td>{{ $article->event_type }}</td>
+                                <td>{{ $event->title }}</td>
+                                <td>{{ formatDate($event->from_date,'d M, y') .' - '. formatDate($event->to_date,'d M, y') }}</td>
+                                <td>{{ formatDate($event->from_time,'h:i A') .' - '. formatDate($event->to_time,'h:i A') }}</td>
+                                <td>{{ ucfirst(strtolower($event->event_type)) }}</td>
+                                <td><span>{{ $event->status == 1 ? 'Active' : 'Inactive' }}</span></td>
                                 <td>
-                                    <span>{{ $article->status == 1 ? 'Active' : 'Inactive' }}</span>
-                                </td>
-    
-                                <td>
-                                    <a href="{{ route('admin.events.show',$article->slug) }}" class="btn btn-info btn-sm"><i class="fa fa-eye"></i></a>
-                                    <a href="{{ route('admin.events.show',$article->id) }}" class="btn btn-success btn-sm"><i class="fa fa-edit"></i></a>
-                                    <a href="{{ route('admin.events.show',$article->id) }}" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></a>
-                                    
+                                    <a href="{{ route('admin.events.show',$event->slug) }}" class="btn btn-info btn-sm"><i class="fa fa-eye"></i></a>
+                                    <a href="{{ route('admin.events.edit',$event->id) }}" class="btn btn-success btn-sm"><i class="fa fa-edit"></i></a>
+                                    <a href="{{ route('admin.events.show',$event->id) }}" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></a>
                                 </td>
                             </tr>
                         @endforeach

@@ -49,10 +49,17 @@ $(function () {
         value: new Date(), // Default to today
         theme: "picker-box",
     });
+    $(".datepicker").datetimepicker({
+        format: "Y-m-d",
+        timepicker: false,
+        value: new Date(), // Default to today
+        theme: "picker-box",
+    });
 
     $(".timepicker").datetimepicker({
         format: "H:i",
         datepicker: false,
+        value: new Date(),
         step: 1,
     });
 });
