@@ -209,28 +209,6 @@
                                                     </td>
                                                 </tr>
                                             @endforeach
-                                        @else
-                                            <tr>
-                                                <td>
-                                                    <input name="image_title[]" type="text" class="form-control"
-                                                        placeholder="Title" required>
-                                                </td>
-                                                <td>
-                                                    <input name="photos[]" type="file" class="form-control"
-                                                        accept=".jpg,.jpeg,.png" required>
-                                                </td>
-                                                <td class="pl-2 pt-2 pb-0">
-                                                    <div class="custom-control custom-switch">
-                                                        <input type="checkbox" class="custom-control-input"
-                                                            id="customSwitch${switchCounter}" checked>
-                                                        <input type="hidden" name="display_on_slider[]" value="on">
-                                                        <!-- Default value -->
-                                                        <label class="custom-control-label"
-                                                            for="customSwitch${switchCounter}">Display Image On
-                                                            Slider</label>
-                                                    </div>
-                                                </td>
-                                            </tr>
                                         @endif
 
                                     </tbody>

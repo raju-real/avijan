@@ -70,9 +70,10 @@ class ArticleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($slug)
     {
-        //
+        $article = Article::whereSlug($slug)->firstOrFail();
+        return view('admin.article.article_details',compact('article'));
     }
 
     /**
@@ -83,7 +84,9 @@ class ArticleController extends Controller
      */
     public function edit($id)
     {
-        //
+        $data = Article::findOrFail($id);
+        $route = route('admin.articles.update',$id);
+        return view('admin.article.article_add_edit',compact('route','data'));
     }
 
     /**
@@ -101,6 +104,18 @@ class ArticleController extends Controller
             'status' => 'required|in:0,1',
             'description' => 'required|max:10000'
         ]);
+
+        $row = Article::findOrFail($id);
+        $row->title = $request->title;
+        $row->slug = Str::slug($request->title);
+        if($request->file('image')) {
+            $row->image = uploadImage($request->file('image'),'assets/admin/files/images/articles/');
+        }
+        $row->description = $request->description;
+        $row->status = $request->status;
+        $row->created_by = Auth::id();
+        $row->save();
+        return redirect()->route('admin.articles.index')->with(updateMessage());
     }
 
     /**
@@ -111,6 +126,7 @@ class ArticleController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Article::findOrFail($id)->delete();
+        return redirect()->route('admin.articles.index')->with(deleteMessage());
     }
 }

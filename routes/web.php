@@ -6,6 +6,8 @@ use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\HomePageController;
 use App\Http\Controllers\AdminBasicController;
 use App\Http\Controllers\EventCategoryController;
+use App\Http\Controllers\FaqController;
+use App\Http\Controllers\SliderController;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,12 +25,18 @@ Route::controller(HomePageController::class)->group(function() {
     Route::get('/','home')->name('home');
     Route::view('admin','auth.login')->name('admin');
     Route::post('admin-login','adminLogin')->name('admin-login');
+    Route::view('about-us','website.pages.about_us')->name('about-us');
+    Route::view('contact-us','website.pages.contact_us')->name('contact-us');
+    Route::view('all-events','website.pages.events')->name('all-events');
+    Route::get('event-details/{slug}','eventDetails')->name('event-details');
 });
 
 // Admin routes
 Route::group(['as' => 'admin.', 'middleware' => 'auth'], function() {
     Route::resource('articles', ArticleController::class);
     Route::resource('event-categories', EventCategoryController::class);
+    Route::resource('sliders', SliderController::class);
+    Route::resource('faqs', FaqController::class);
     Route::resource('events', EventController::class);
     
     Route::controller(AdminBasicController::class)->group(function() {

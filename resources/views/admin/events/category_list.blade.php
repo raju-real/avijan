@@ -33,14 +33,6 @@
                                 <td>{{ $category->description ?? 'N/A' }}</td>
                                 <td>
                                     <a href="{{ route('admin.event-categories.edit',$category->id) }}" class="btn btn-info btn-sm"><i class="fa fa-edit"></i></a>
-                                    <a class="btn btn-danger btn-sm delete-data" data-id="{{ 'delete-event-category-'.$category->id }}" href="javascript:void(0);">
-                                        <i class="fa fa-trash"></i>
-                                    </a>
-                                    <form id="delete-event-category-{{ $category->id }}"
-                                        action="{{ route('admin.event-categories.destroy',$category->id) }}" method="POST">
-                                        @csrf
-                                        @method('DELETE')
-                                    </form>
                                 </td>
                             </tr>
                         @endforeach

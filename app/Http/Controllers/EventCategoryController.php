@@ -105,7 +105,7 @@ class EventCategoryController extends Controller
      */
     public function destroy($id)
     {
-        EventCategory::findOrFail($id)->delete();
-        return redirect()->route('admin.event-categories.index')->with(deleteMessage());
+        // EventCategory::findOrFail($id)->delete();
+        // return redirect()->route('admin.event-categories.index')->with(deleteMessage());
     }
 }

@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('event_photos', function (Blueprint $table) {
             $table->id();
             $table->integer('event_id');
-            $table->string('title',255);
+            $table->text('title');
             $table->string('photo_path',255);
             $table->boolean('display_on_slider')->default(true);
             $table->timestamps();

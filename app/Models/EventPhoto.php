@@ -9,4 +9,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class EventPhoto extends Model
 {
     use HasFactory,SoftDeletes;
+
+    public function event() {
+        return $this->belongsTo(Event::class,'event_id','id');
+    }
 }

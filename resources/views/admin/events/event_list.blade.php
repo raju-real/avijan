@@ -101,7 +101,14 @@
                                 <td>
                                     <a href="{{ route('admin.events.show',$event->slug) }}" class="btn btn-info btn-sm"><i class="fa fa-eye"></i></a>
                                     <a href="{{ route('admin.events.edit',$event->id) }}" class="btn btn-success btn-sm"><i class="fa fa-edit"></i></a>
-                                    <a href="{{ route('admin.events.show',$event->id) }}" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></a>
+                                    <a class="btn btn-danger btn-sm delete-data" data-id="{{ 'delete-event-'.$event->id }}" href="javascript:void(0);">
+                                        <i class="fa fa-trash"></i>
+                                    </a>
+                                    <form id="delete-event-{{ $event->id }}"
+                                        action="{{ route('admin.events.destroy',$event->id) }}" method="POST">
+                                        @csrf
+                                        @method('DELETE')
+                                    </form>
                                 </td>
                             </tr>
                         @endforeach

@@ -94,9 +94,10 @@ class EventController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($slug)
     {
-        //
+        $event = Event::whereSlug($slug)->firstOrFail();
+        return view('admin.events.event_details',compact('event'));
     }
 
     /**
@@ -189,6 +190,9 @@ class EventController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $event = Event::findOrFail($id);
+        EventPhoto::whereIn('event_id', [$event->id])->delete();
+        $event->delete();
+        return redirect()->route('admin.events.index')->with(deleteMessage());
     }
 }

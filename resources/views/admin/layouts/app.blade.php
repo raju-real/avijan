@@ -92,10 +92,13 @@
                             <a href="{{ route('admin.dashboard') }}" class="nav-link">
                                 Dashboard
                             </a>
-
-                            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="{{ route('admin.logout') }}">Logout</a>
-                            </div>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('admin.sliders.index') }}" class="nav-link">
+                                Sliders
+                            </a>
+                        </li>
+                        
                         </li>
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
@@ -129,6 +132,7 @@
                                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                                     <a class="dropdown-item" href="{{ route('admin.website-settings') }}">Website
                                         Settings</a>
+                                        <a class="dropdown-item" href="{{ route('admin.faqs.index') }}">Faq</a>
                                 </div>
                             </li>
 

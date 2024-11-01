@@ -70,30 +70,41 @@
                             <tr>
                                 <td>{{ $loop->index + 1 }}</td>
                                 <td>
-                                    <img src="{{ asset($article->image) }}" alt="" class="img-responsive" height="50" width="50">
+                                    <img src="{{ asset($article->image) }}" alt="" class="img-responsive"
+                                        height="50" width="50">
                                 </td>
                                 <td>{{ $article->title }}</td>
                                 <td>
                                     <span>{{ $article->status == 1 ? 'Active' : 'Inactive' }}</span>
                                 </td>
-    
+
                                 <td>
-                                    <a href="{{ route('admin.articles.show',$article->slug) }}" class="btn btn-info btn-sm"><i class="fa fa-eye"></i></a>
-                                    <a href="{{ route('admin.articles.show',$article->id) }}" class="btn btn-success btn-sm"><i class="fa fa-edit"></i></a>
-                                    <a href="{{ route('admin.articles.show',$article->id) }}" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></a>
-                                    
+                                    <a href="{{ route('admin.articles.show', $article->slug) }}"
+                                        class="btn btn-info btn-sm"><i class="fa fa-eye"></i></a>
+                                    <a href="{{ route('admin.articles.edit', $article->id) }}"
+                                        class="btn btn-success btn-sm"><i class="fa fa-edit"></i></a>
+                                    <a class="btn btn-danger btn-sm delete-data"
+                                        data-id="{{ 'delete-article-' . $article->id }}" href="javascript:void(0);">
+                                        <i class="fa fa-trash"></i>
+                                    </a>
+                                    <form id="delete-article-{{ $article->id }}"
+                                        action="{{ route('admin.articles.destroy', $article->id) }}" method="POST">
+                                        @csrf
+                                        @method('DELETE')
+                                    </form>
+
                                 </td>
                             </tr>
                         @endforeach
                     </tbody>
                 </table>
-                
+
             </div>
 
             <!-- Pagination Links -->
-<div class="d-flex justify-content-end">
-    {{ $articles->links() }}
-</div>
+            <div class="d-flex justify-content-end">
+                {{ $articles->links() }}
+            </div>
         </div>
     </div>
 @endsection
