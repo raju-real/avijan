@@ -1,14 +1,14 @@
 @extends('admin.layouts.app')
-
+@section('title','Add/Edit Gallery')
 @section('content')
     <div class="card">
         <div class="card-header">
             <div class="row">
                 <div class="col-md-6">
-                    <h4>Add/Edit Slider</h4>
+                    <h4>Add/Edit Gallery</h4>
                 </div>
                 <div class="col-md-6 text-end">
-                    <a class="btn btn-sm btn-primary" href="{{ route('admin.sliders.index') }}">Back</a>
+                    <a class="btn btn-sm btn-primary" href="{{ route('admin.galleries.index') }}">Back</a>
                 </div>
             </div>
         </div>
@@ -43,12 +43,12 @@
 
                     <div class="col-md-4 pb-3">
                         <div class="form-group">
-                            <label for="status" class="col-form-label">Status</label>
-                            <select name="status" id="status" class="form-select">
-                                <option value="1" {{ (old('status') ?? $data->status ?? '') == '1' ? 'selected' : '' }}>Active</option>
-                                <option value="0" {{ (old('status') ?? $data->status ?? '') == '0' ? 'selected' : '' }}>Inactive</option>
+                            <label for="display_on_slider" class="col-form-label">Display on Slider</label>
+                            <select name="display_on_slider" id="display_on_slider" class="form-select">
+                                <option value="1" {{ (old('display_on_slider') ?? $data->display_on_slider ?? '') == '1' ? 'selected' : '' }}>Yes</option>
+                                <option value="0" {{ (old('display_on_slider') ?? $data->display_on_slider ?? '') == '0' ? 'selected' : '' }}>No</option>
                             </select>
-                            @error('status')
+                            @error('display_on_slider')
                                 {!! displayError($message) !!}
                             @enderror
                         </div>

@@ -137,51 +137,6 @@
     </section><!-- /Portfolio Section -->
     @endif
 
-
-    <!-- Why Us Section -->
-    <section id="why-us" class="why-us section">
-
-        <!-- Section Title -->
-        <div class="container section-title" data-aos="fade-up">
-            <h2>Why Us</h2>
-            <p>Necessitatibus eius consequatur ex aliquid fuga eum quidem sint consectetur velit</p>
-        </div><!-- End Section Title -->
-
-        <div class="container">
-
-            <div class="row gy-4">
-
-                <div class="col-lg-4" data-aos="fade-up" data-aos-delay="100">
-                    <div class="card-item">
-                        <span>01</span>
-                        <h4><a href="" class="stretched-link">Lorem Ipsum</a></h4>
-                        <p>Ulamco laboris nisi ut aliquip ex ea commodo consequat. Et consectetur ducimus vero placeat</p>
-                    </div>
-                </div><!-- Card Item -->
-
-                <div class="col-lg-4" data-aos="fade-up" data-aos-delay="200">
-                    <div class="card-item">
-                        <span>02</span>
-                        <h4><a href="" class="stretched-link">Repellat Nihil</a></h4>
-                        <p>Dolorem est fugiat occaecati voluptate velit esse. Dicta veritatis dolor quod et vel dire leno
-                            para dest</p>
-                    </div>
-                </div><!-- Card Item -->
-
-                <div class="col-lg-4" data-aos="fade-up" data-aos-delay="300">
-                    <div class="card-item">
-                        <span>03</span>
-                        <h4><a href="" class="stretched-link">Ad ad velit qui</a></h4>
-                        <p>Molestiae officiis omnis illo asperiores. Aut doloribus vitae sunt debitis quo vel nam quis</p>
-                    </div>
-                </div><!-- Card Item -->
-
-            </div>
-
-        </div>
-
-    </section><!-- /Why Us Section -->
-
     @if(count(allFaqs()))
     <!-- Faq Section -->
     <section id="faq" class="faq section light-background">
@@ -214,6 +169,34 @@
             </div>
         </div>
     </section><!-- /Faq Section -->
+    @endif
+
+    @if (count(webArticles()))
+        <!-- Services Section -->
+        <section id="services" class="services section">
+            <!-- Section Title -->
+            <div class="container section-title" data-aos="fade-up">
+                <h2>Articles</h2>
+            </div><!-- End Section Title -->
+            <div class="container">
+                <div class="row g-5">
+                    @foreach (webArticles() as $article)
+                        <div class="col-lg-6" data-aos="fade-up" data-aos-delay="100">
+                            <div class="service-item item-cyan position-relative">
+                                <img src="{{ asset($article->image) }}" alt="" class="img-responsive border-r-10"
+                                    height="200" width="200">
+                                <div class="ps-3">
+                                    <h3>{{ $article->title ?? '' }}</h3>
+                                    <p>{!! strLimit($article->description, 150) !!}</p>
+                                    <a href="{{ route('article-details', $article->slug) }}"
+                                        class="read-more stretched-link">Read More <i class="bi bi-arrow-right"></i></a>
+                                </div>
+                            </div>
+                        </div><!-- End Service Item -->
+                    @endforeach
+                </div>
+            </div>
+        </section><!-- /Services Section -->
     @endif
 
     <!-- Contact Section -->
@@ -254,9 +237,7 @@
                         </div><!-- End Info Item -->
 
                         <div class="col-md-6">
-                            <div class="info-item" data-aos="fade" data-aos-delay="500">
-                                
-                            </div>
+                            
                         </div><!-- End Info Item -->
 
                     </div>
@@ -264,35 +245,41 @@
                 </div>
 
                 <div class="col-lg-6">
-                    <form action="forms/contact.php" method="post" class="php-email-form" data-aos="fade-up"
-                        data-aos-delay="200">
+                    <div class="col-12 text-center">
+                        <div class="loading d-none">Please wait...</div>
+                            <div class="alert alert-danger error-message d-none"></div>
+                            <div class="alert alert-success sent-message d-none"></div>
+
+                    </div>
+                    <form action="{{ route('send-contact-message') }}" method="post" class="php-email-form" >
                         <div class="row gy-4">
 
                             <div class="col-md-6">
-                                <input type="text" name="name" class="form-control" placeholder="Your Name"
-                                    required="">
+                                <input type="text" name="name" class="form-control name_field" id="name"
+                                        placeholder="Your Name">
+                                    <span class="text-danger contact-error-message name_error"></span>
                             </div>
 
                             <div class="col-md-6 ">
-                                <input type="email" class="form-control" name="email" placeholder="Your Email"
-                                    required="">
+                                <input type="text" class="form-control email_field" name="email" id="email"
+                                        placeholder="Your Email">
+                                    <span class="text-danger contact-error-message email_error"></span>
                             </div>
 
                             <div class="col-12">
-                                <input type="text" class="form-control" name="subject" placeholder="Subject"
-                                    required="">
+                                <input type="text" class="form-control mobile_field" name="mobile" id="mobile"
+                                        placeholder="Mobile">
+                                    <span class="text-danger contact-error-message mobile_error"></span>
                             </div>
 
                             <div class="col-12">
-                                <textarea class="form-control" name="message" rows="6" placeholder="Message" required=""></textarea>
+                                <textarea class="form-control message_field" name="message" rows="5" placeholder="Message"></textarea>
+                                <span class="text-danger contact-error-message message_error"></span>
                             </div>
 
                             <div class="col-12 text-center">
-                                <div class="loading">Loading</div>
-                                <div class="error-message"></div>
-                                <div class="sent-message">Your message has been sent. Thank you!</div>
-
-                                <button type="submit">Send Message</button>
+                                    <button class="btn btn-primary send-contact-message" type="button"
+                                    id="send-contact-message">Send Message</button>
                             </div>
 
                         </div>

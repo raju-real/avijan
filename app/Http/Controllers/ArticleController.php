@@ -17,10 +17,15 @@ class ArticleController extends Controller
     public function index()
     {
         $data = Article::query();
+        
         $data->when(request()->get('title'),function($query) {
             $title = request()->get('title');
             $query->where('title',"LIKE","%{$title}%");
         });
+       
+        if(request()->has('status')) {
+            $data->where('status',request()->get('status'));
+        }
         $articles = $data->paginate(20);
         return view('admin.article.article_list',compact('articles'));
     }

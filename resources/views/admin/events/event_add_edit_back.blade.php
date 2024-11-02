@@ -1,4 +1,5 @@
 @extends('admin.layouts.app')
+@section('title','Event Add/Edit')
 
 @section('content')
     <div class="card">

@@ -1,4 +1,5 @@
 @extends('admin.layouts.app')
+@section('title','Event Lists')
 
 @section('content')
     <div class="card">
@@ -19,12 +20,12 @@
             <div class="accordion mb-3" id="accordionSearch">
                 <div class="accordion-item">
                     <h2 class="accordion-header" id="headingSearch">
-                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                            data-bs-target="#collapseSearch" aria-expanded="false" aria-controls="collapseSearch">
+                        <button class="accordion-button {{ request()->query() ? '' : 'collapsed' }}" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#collapseSearch" aria-expanded="{{ request()->query() ? 'true' : 'false' }}" aria-controls="collapseSearch">
                             Search
                         </button>
                     </h2>
-                    <div id="collapseSearch" class="accordion-collapse collapse" aria-labelledby="headingSearch"
+                    <div id="collapseSearch" class="accordion-collapse collapse {{ request()->query() ? 'show' : '' }}" aria-labelledby="headingSearch"
                         data-bs-parent="#accordionSearch">
                         <div class="accordion-body">
                             <form method="GET" action="{{ route('admin.events.index') }}">
@@ -32,15 +33,15 @@
                                     <div class="col-md-4 pb-4">
                                         <div class="form-group">
                                             <input type="text" name="title" class="form-control"
-                                                placeholder="Search by Title">
+                                                placeholder="Search by Title" {{ request('title') ?? '' }}>
                                         </div>
                                     </div>
                                     <div class="col-md-4 pb-4">
                                         <div class="form-group">
                                             <select name="category" id="category" class="form-select">
-                                                <option value="">Category</option>
+                                                <option value="" {{ !isset(request()->category) ? 'selected' : '' }}>Category</option>
                                                 @foreach(eventCategories() as $category)
-                                                    <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                                    <option value="{{ $category->id }}" {{ request('category') == $category->id ? 'selected' : '' }}>{{ $category->name }}</option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -48,16 +49,22 @@
                                     <div class="col-md-4 pb-4">
                                         <div class="form-group">
                                             <select name="event_type" id="event_type" class="form-select">
-                                                <option value="UPCOMING">Upcoming</option>
-                                                <option value="COMPLETE">Complete</option>
+                                                <option value="" {{ !isset(request()->event_type) ? 'selected' : '' }}>
+                                                    Select Event Type</option>
+                                                <option value="UPCOMING" {{ request('event_type') == 'UPCOMING' ? 'selected' : '' }}>Upcoming</option>
+                                                <option value="COMPLETE" {{ request('event_type') == 'COMPLETE' ? 'selected' : '' }}>Complete</option>
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="col-md-4 pb-4">
+                                    <div class="col-md-4">
                                         <div class="form-group">
                                             <select name="status" id="status" class="form-select">
-                                                <option value="1">Active</option>
-                                                <option value="0">Inactive</option>
+                                                <option value="" {{ !isset(request()->status) ? 'selected' : '' }}>
+                                                    Select Status</option>
+                                                <option value="1" {{ request('status') == 1 ? 'selected' : '' }}>Active
+                                                </option>
+                                                <option value="0" {{ request('status') === '0' ? 'selected' : '' }}>
+                                                    Inactive</option>
                                             </select>
                                         </div>
                                     </div>
@@ -87,7 +94,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($events as $event)
+                        @forelse ($events as $event)
                             <tr>
                                 <td>{{ $loop->index + 1 }}</td>
                                 <td>
@@ -111,7 +118,9 @@
                                     </form>
                                 </td>
                             </tr>
-                        @endforeach
+                            @empty
+                            <x-no-data-found />
+                        @endforelse
                     </tbody>
                 </table>
                 

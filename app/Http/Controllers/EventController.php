@@ -22,15 +22,18 @@ class EventController extends Controller
             $title = request()->get('title');
             $query->where('title', "LIKE", "%{$title}%");
         });
-        $data->when(request()->get('category'), function ($query) {
-            $query->where('category_id', request()->get('category'));
+
+        if(request()->has('category')) {
+            $data->where('category_id',request()->get('category_id'));
+        }
+        if(request()->has('status')) {
+            $data->where('status',request()->get('status'));
+        }
+        $data->when(request()->get('event_type'),function($query) {
+            return request()->get('event_type');
+            $query->where('event_type',request()->get('event_type'));
         });
-        $data->when(request()->get('status'), function ($query) {
-            $query->where('status', request()->get('status'));
-        });
-        $data->when(request()->get('is_active'), function ($query) {
-            $query->where('is_active', request()->get('is_active'));
-        });
+        
         $events = $data->paginate(20);
         return view('admin.events.event_list', compact('events'));
     }

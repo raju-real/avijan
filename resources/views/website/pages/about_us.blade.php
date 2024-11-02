@@ -28,4 +28,24 @@
             </div>
         </div>
     </section><!-- /About Section -->
+
+    <section id="about" class="about section">
+
+        <!-- Section Title -->
+        <div class="container section-title" data-aos="fade-up">
+            <h2>Mission & Vission</h2>
+        </div><!-- End Section Title -->
+
+        <div class="container">
+            <div class="row gy-3">
+                <div class="col-lg-12 justify-content-center" data-aos="fade-up" data-aos-delay="200">
+                    <div class="about-content ps-0 ps-lg-3">
+                        <p class="fst-italic">
+                            {!! siteSetting()['mission_vission'] ?? '' !!}
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 @endsection

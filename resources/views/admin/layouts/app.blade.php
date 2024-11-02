@@ -9,10 +9,16 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>@yield('title', 'Avijan')</title>
+    <link href="{{ asset('assets/common/images/logo.jpg') }}" rel="icon">
+    <link href="{{ asset('assets/common/images/logo.jpg') }}" rel="apple-touch-icon">
 
     <!-- Fonts -->
-    <link rel="dns-prefetch" href="//fonts.bunny.net">
-    <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
+    <link href="https://fonts.googleapis.com" rel="preconnect">
+    <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+        rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.1.0/css/v4-shims.min.css" integrity="sha512-p++g4gkFY8DBqLItjIfuKJPFvTPqcg2FzOns2BNaltwoCOrXMqRIOqgWqWEvuqsj/3aVdgoEo2Y7X6SomTfUPA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
     <!-- Scripts -->
     <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.min.css') }}">
@@ -67,10 +73,10 @@
 
 <body>
     <div id="app">
-        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
-            <div class="container">
-                <a class="navbar-brand" href="{{ route('home') }}">
-                    Avijan
+        <nav class="navbar navbar-expand-md navbar-light nav-bg nav-shadow">
+            <div class="container-fluid">
+                <a class="navbar-brand" target="_blank" href="{{ route('home') }}">
+                    <img src="{{ asset('assets/common/images/logo.jpg') }}" alt="" class="img-responsive br-5">
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                     data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
@@ -85,69 +91,7 @@
                     </ul>
 
                     <!-- Right Side Of Navbar -->
-                    <ul class="navbar-nav ms-auto">
-                        <!-- Authentication Links -->
-                        @auth
-                        <li class="nav-item">
-                            <a href="{{ route('admin.dashboard') }}" class="nav-link">
-                                Dashboard
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ route('admin.sliders.index') }}" class="nav-link">
-                                Sliders
-                            </a>
-                        </li>
-                        
-                        </li>
-                            <li class="nav-item dropdown">
-                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
-                                    data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                    Events
-                                </a>
-
-                                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="{{ route('admin.events.index') }}">Event List</a>
-                                    <a class="dropdown-item" href="{{ route('admin.events.create') }}"> Add New</a>
-                                    <a class="dropdown-item" href="{{ route('admin.event-categories.index') }}"> Categories</a>
-                                </div>
-                            </li>
-                            <li class="nav-item dropdown">
-                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
-                                    data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                    Articles
-                                </a>
-
-                                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="{{ route('admin.articles.index') }}">Article List</a>
-                                    <a class="dropdown-item" href="{{ route('admin.articles.create') }}"> Add New</a>
-                                </div>
-                            </li>
-                            <li class="nav-item dropdown">
-                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
-                                    data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                    Settings
-                                </a>
-
-                                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="{{ route('admin.website-settings') }}">Website
-                                        Settings</a>
-                                        <a class="dropdown-item" href="{{ route('admin.faqs.index') }}">Faq</a>
-                                </div>
-                            </li>
-
-                            <li class="nav-item dropdown">
-                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
-                                    data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                    {{ Auth::user()->name ?? 'Admin' }}
-                                </a>
-
-                                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="{{ route('admin.logout') }}">Logout</a>
-                                </div>
-                            </li>
-                        @endauth
-                    </ul>
+                    @include('admin.layouts.menus')
                 </div>
             </div>
         </nav>
@@ -155,7 +99,7 @@
         <main class="py-4">
             <div class="container-fluid">
                 <div class="row justify-content-center">
-                    <div class="col-md-11">
+                    <div class="col-md-12">
                         @if (Session::has('message'))
                             <p class="alert alert-{{ Session::get('type') }}">{{ Session::get('message') }}</p>
                         @endif
@@ -165,6 +109,11 @@
             </div>
         </main>
     </div>
+
+    <footer class="footer">
+        <p>&copy; {{ date('Y',strtotime(now())) }} {{ siteSetting()['company_name'] ?? '' }}. All rights reserved.</p>
+    </footer>
+    
     <div id="preloader"></div>
 
 

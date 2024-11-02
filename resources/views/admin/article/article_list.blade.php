@@ -1,4 +1,5 @@
 @extends('admin.layouts.app')
+@section('title', 'Article List')
 
 @section('content')
     <div class="card">
@@ -19,27 +20,32 @@
             <div class="accordion mb-3" id="accordionSearch">
                 <div class="accordion-item">
                     <h2 class="accordion-header" id="headingSearch">
-                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                            data-bs-target="#collapseSearch" aria-expanded="false" aria-controls="collapseSearch">
+                        <button class="accordion-button {{ request()->query() ? '' : 'collapsed' }}" type="button"
+                            data-bs-toggle="collapse" data-bs-target="#collapseSearch"
+                            aria-expanded="{{ request()->query() ? 'true' : 'false' }}" aria-controls="collapseSearch">
                             Search
                         </button>
                     </h2>
-                    <div id="collapseSearch" class="accordion-collapse collapse" aria-labelledby="headingSearch"
-                        data-bs-parent="#accordionSearch">
+                    <div id="collapseSearch" class="accordion-collapse collapse {{ request()->query() ? 'show' : '' }}"
+                        aria-labelledby="headingSearch" data-bs-parent="#accordionSearch">
                         <div class="accordion-body">
                             <form method="GET" action="{{ route('admin.articles.index') }}">
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <input type="text" name="title" class="form-control"
-                                                placeholder="Search by Title">
+                                                placeholder="Search by Title" value="{{ request('title') ?? '' }}">
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <select name="status" id="status" class="form-select">
-                                                <option value="1">Active</option>
-                                                <option value="0">Inactive</option>
+                                                <option value="" {{ !isset(request()->status) ? 'selected' : '' }}>
+                                                    Select Status</option>
+                                                <option value="1" {{ request('status') == 1 ? 'selected' : '' }}>Active
+                                                </option>
+                                                <option value="0" {{ request('status') === '0' ? 'selected' : '' }}>
+                                                    Inactive</option>
                                             </select>
                                         </div>
                                     </div>
@@ -66,7 +72,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($articles as $article)
+                        @forelse ($articles as $article)
                             <tr>
                                 <td>{{ $loop->index + 1 }}</td>
                                 <td>
@@ -95,7 +101,9 @@
 
                                 </td>
                             </tr>
-                        @endforeach
+                        @empty
+                            <x-no-data-found />
+                        @endforelse
                     </tbody>
                 </table>
 

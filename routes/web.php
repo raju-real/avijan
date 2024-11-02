@@ -7,6 +7,7 @@ use App\Http\Controllers\HomePageController;
 use App\Http\Controllers\AdminBasicController;
 use App\Http\Controllers\EventCategoryController;
 use App\Http\Controllers\FaqController;
+use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\SliderController;
 
 /*
@@ -29,15 +30,21 @@ Route::controller(HomePageController::class)->group(function() {
     Route::view('contact-us','website.pages.contact_us')->name('contact-us');
     Route::view('all-events','website.pages.events')->name('all-events');
     Route::get('event-details/{slug}','eventDetails')->name('event-details');
+    Route::view('all-articles','website.pages.articles')->name('all-articles');
+    Route::get('article-details/{slug}','articleDetails')->name('article-details');
+    Route::post('send-contact-message','storeMessage')->name('send-contact-message');
 });
 
 // Admin routes
 Route::group(['as' => 'admin.', 'middleware' => 'auth'], function() {
     Route::resource('articles', ArticleController::class);
     Route::resource('event-categories', EventCategoryController::class);
-    Route::resource('sliders', SliderController::class);
+    Route::resource('galleries', GalleryController::class);
     Route::resource('faqs', FaqController::class);
     Route::resource('events', EventController::class);
+    Route::controller(SliderController::class)->group(function() {
+        Route::get('sliders','sliders')->name('sliders');
+    });
     
     Route::controller(AdminBasicController::class)->group(function() {
         Route::get('dashboard', 'dashboard')->name('dashboard');

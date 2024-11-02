@@ -1,4 +1,5 @@
 @extends('admin.layouts.app')
+@section('title','Website Settings')
 
 @section('content')
     <div class="card">

@@ -1,12 +1,13 @@
 <?php
 
+use App\Models\Article;
+use App\Models\Faq;
 use App\Models\Event;
+use App\Models\Gallery;
+use App\Models\EventPhoto;
+use App\Models\SliderView;
 use Illuminate\Support\Str;
 use App\Models\EventCategory;
-use App\Models\EventPhoto;
-use App\Models\EventSliderView;
-use App\Models\Faq;
-use App\Models\Slider;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Route;
 use Intervention\Image\Facades\Image;
@@ -321,30 +322,36 @@ if (!function_exists('eventCategories')) {
     }
 }
 
+if (! function_exists('sliderImagesOld')) {
+    function sliderImagesOld()
+    {
+
+        $events = EventPhoto::where('display_on_slider', 1)
+            ->select('title', 'photo_path', 'display_on_slider', 'event_id')
+            ->with('event:id,slug') // Load the event relationship and only the 'id' and 'slug' columns
+            ->get()
+            ->map(function ($item) {
+                $item->type = 'event';
+                $item->slug = $item->event->slug ?? null; // Add slug from the related Event model
+                return $item->only(['title', 'photo_path', 'type', 'slug']);
+            })->toArray();
+
+        $sliders = Gallery::where('display_on_slider', 1)
+            ->select('title', 'photo_path', 'display_on_slider')
+            ->get()
+            ->map(function ($item) {
+                $item->type = 'gallery';
+                return $item->only(['title', 'photo_path', 'type']);
+            })->toArray();
+
+        return collect(array_merge($events, $sliders));
+    }
+}
+
 if (! function_exists('sliderImages')) {
     function sliderImages()
     {
-
-        // $events = EventPhoto::where('display_on_slider', 1)
-        //     ->select('title', 'photo_path', 'display_on_slider', 'event_id')
-        //     ->with('event:id,slug') // Load the event relationship and only the 'id' and 'slug' columns
-        //     ->get()
-        //     ->map(function ($item) {
-        //         $item->type = 'event';
-        //         $item->slug = $item->event->slug ?? null; // Add slug from the related Event model
-        //         return $item->only(['title', 'photo_path', 'type', 'slug']);
-        //     })->toArray();
-
-        // $sliders = Slider::where('status', 1)
-        //     ->select('title', 'photo_path', 'status')
-        //     ->get()
-        //     ->map(function ($item) {
-        //         $item->type = 'slider';
-        //         return $item->only(['title', 'photo_path', 'type']);
-        //     })->toArray();
-
-        // $results = collect(array_merge($events, $sliders));
-        return EventSliderView::orderBy('updated_at','desc')->get();
+        return SliderView::orderBy('updated_at','desc')->get();
     }
 }
 
@@ -364,5 +371,18 @@ if (! function_exists('allFaqs')) {
     function allFaqs()
     {
         return Faq::where('status', 1)->get();
+    }
+}
+
+if (! function_exists('allArticles')) {
+    function allArticles()
+    {
+        return Article::where('status', 1)->latest()->paginate(100);
+    }
+}
+if (! function_exists('webArticles')) {
+    function webArticles()
+    {
+        return Article::where('status', 1)->latest()->take(8)->get();
     }
 }
