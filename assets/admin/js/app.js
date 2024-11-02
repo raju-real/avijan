@@ -1,10 +1,10 @@
 $(function () {
-    $(window).on("load", function () {
-        let preloader = $("#preloader");
-        if (preloader) {
-            preloader.remove();
-        }
-    });
+    // $(window).on("load", function () {
+    //     let preloader = $("#preloader");
+    //     if (preloader) {
+    //         preloader.remove();
+    //     }
+    // });
 
     $(document).on("submit", "#prevent-form", function () {
         let spinTag = "<i class='fa fa-spinner fa-spin me-2 spinner'></i>";

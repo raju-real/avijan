@@ -18,7 +18,9 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
         rel="stylesheet">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.1.0/css/v4-shims.min.css" integrity="sha512-p++g4gkFY8DBqLItjIfuKJPFvTPqcg2FzOns2BNaltwoCOrXMqRIOqgWqWEvuqsj/3aVdgoEo2Y7X6SomTfUPA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.1.0/css/v4-shims.min.css"
+        integrity="sha512-p++g4gkFY8DBqLItjIfuKJPFvTPqcg2FzOns2BNaltwoCOrXMqRIOqgWqWEvuqsj/3aVdgoEo2Y7X6SomTfUPA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
 
     <!-- Scripts -->
     <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.min.css') }}">
@@ -28,47 +30,48 @@
 
     <link rel="stylesheet" href="{{ asset('assets/admin/css/custom.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/admin/css/select2.min.css ') }}">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css">
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css">
 
 </head>
-    <style>
-        /*--------------------------------------------------------------
+<style>
+    /*--------------------------------------------------------------
         # Preloader
         --------------------------------------------------------------*/
-        #preloader {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            z-index: 9999;
-            overflow: hidden;
-            background: #fff;
+    #preloader {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 9999;
+        overflow: hidden;
+        background: #fff;
+    }
+
+    #preloader:before {
+        content: "";
+        position: fixed;
+        top: calc(50% - 30px);
+        left: calc(50% - 30px);
+        border: 6px solid #0F75BC;
+        border-top-color: #e2eefd;
+        border-radius: 50%;
+        width: 60px;
+        height: 60px;
+        animation: animate-preloader 1s linear infinite;
+    }
+
+    @keyframes animate-preloader {
+        0% {
+            transform: rotate(0deg);
         }
 
-        #preloader:before {
-            content: "";
-            position: fixed;
-            top: calc(50% - 30px);
-            left: calc(50% - 30px);
-            border: 6px solid #0F75BC;
-            border-top-color: #e2eefd;
-            border-radius: 50%;
-            width: 60px;
-            height: 60px;
-            animation: animate-preloader 1s linear infinite;
+        100% {
+            transform: rotate(360deg);
         }
-
-        @keyframes animate-preloader {
-            0% {
-                transform: rotate(0deg);
-            }
-
-            100% {
-                transform: rotate(360deg);
-            }
-        }
-    </style>
+    }
+</style>
 </head>
 
 <body>
@@ -111,9 +114,9 @@
     </div>
 
     <footer class="footer">
-        <p>&copy; {{ date('Y',strtotime(now())) }} {{ siteSetting()['company_name'] ?? '' }}. All rights reserved.</p>
+        <p>&copy; {{ date('Y', strtotime(now())) }} {{ siteSetting()['company_name'] ?? '' }}. All rights reserved.</p>
     </footer>
-    
+
     <div id="preloader"></div>
 
 
@@ -123,11 +126,21 @@
     <script src="{{ asset('assets/admin/js/ck-editor/ckeditor.js') }}"></script>
     <script src="{{ asset('assets/admin/js/select2.min.js') }}"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js">
+    </script>
     <script src="{{ asset('assets/admin/js/form-validation.js') }}"></script>
 
     <script src="{{ asset('assets/admin/js/app.js') }}"></script>
     @stack('js')
+
+    <script>
+        const preloader = document.querySelector('#preloader');
+        if (preloader) {
+            window.addEventListener('load', () => {
+                preloader.remove();
+            });
+        }
+    </script>
 </body>
 
 </html>
