@@ -55,7 +55,7 @@ table td {
     text-align: center;
     padding: 15px 0;
     font-size: 0.9rem;
-    position: fixed;
+/*    position: fixed;*/
     bottom: 0;
     width: 100%;
     z-index: 10;
